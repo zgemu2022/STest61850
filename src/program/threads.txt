@@ -1,0 +1,109 @@
+#include "threads.h"
+#include <stdio.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <string.h>
+#include "sys.h"
+
+#include <sys/msg.h>
+#include <stdlib.h>
+#include "command.h"
+#include "IEC61850_type.h"
+#include <signal.h>
+#include <semaphore.h>
+#include <sys/shm.h>
+
+void *thread_61850_write(void *arg)
+{
+	// int ret_value = 0;
+	// //	key_t key1 = ftok(IEC61850_IPC_PATH, IEC61850_IPC_KEY);
+	// msgLcd pmsg;
+	// MyData senddata;
+	// int i, j;
+	// int flag = 0;
+	// // int shmid = shmget(key1, 0, 0);
+	// // if (shmid == -1)
+	// // {
+
+	// // 	sleep(1);
+	// // 	return NULL;
+	// // 	// continue;
+	// // }
+
+	// // printf("shmget ok!  size=%d\n", sizeof(data_info_t));
+
+	// while (!g_sys_status)
+	// {
+	// 	sleep(1);
+	// }
+	// //发送参数
+	// sem_wait(mutex1_lock);
+	// sendParaLcd();
+	// sem_post(mutex1_lock);
+
+	// sem_post(sem1);
+	// while (1)
+	// {
+	// 	ret_value = os_rev_msgqueue(g_lcd_qmegid, &pmsg, sizeof(msgLcd), 0, 5);
+	// 	if (ret_value >= 0)
+	// 	{
+	// 		memcpy((char *)&senddata, pmsg.data, sizeof(MyData));
+    //         flag=1;
+	// 		if (senddata.num > 0)
+	// 		{
+				
+	// 			sem_wait(mutex1_lock);
+	// 			for (i = 0; i < senddata.num; i++)
+	// 			{
+	// 				j = shm_addr->shm_que1.wpos;
+	// 				shm_addr->shm_que1.slist[j].sAddr = senddata.data_info[i].sAddr;
+	// 				shm_addr->shm_que1.slist[j].data_size = senddata.data_info[i].data_size;
+	// 				shm_addr->shm_que1.slist[j].el_tag = senddata.data_info[i].el_tag;
+	// 				memcpy(shm_addr->shm_que1.slist[j].data, senddata.data_info[i].data, senddata.data_info[i].data_size);
+	// 				shm_addr->shm_que1.wpos = (shm_addr->shm_que1.wpos + 1) % data_num;
+	// 			}
+	// 			sem_post(mutex1_lock);
+	// 		}
+			
+	// 	}
+	// 	else if(flag==1)
+	// 	{
+	// 		flag=0;
+    //         sem_post(sem1);
+	// 	}
+	// 	// else
+	// 	// {	
+	// 	// 	sem_wait(mutex1_lock);
+	//     //     sendParaLcd();
+	//     //     sem_post(mutex1_lock);
+
+	//     //    sem_post(sem1);
+
+	// 	// }
+		    
+	// 	// else
+	// 	// {
+	// 	// 	sem_wait(mutex1_lock);
+	// 	// 	sendParaLcd();
+	// 	// 	sem_post(mutex1_lock);
+	// 	// 		sem_post(sem1);
+	// 	// }
+	// }
+
+	return NULL;
+}
+void CreateThreads(void)
+{
+	pthread_t ThreadID;
+	pthread_attr_t Thread_attr;
+	int i;
+	if (FAIL == CreateSettingThread(&ThreadID, &Thread_attr, (void *)thread_61850_write, NULL, 1, 1))
+	{
+		printf(" thread_61850_write CREATE ERR!\n");
+		exit(1);
+	}
+	// initInterface61850();
+    // bams_Init();
+	printf("MODBUS THTREAD CREATE success!\n");
+}

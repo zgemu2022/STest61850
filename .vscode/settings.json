@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"iec61850_type.h": "c",
+		"threads.h": "c",
+		"*.bak": "c"
+	}
+}
